@@ -68,16 +68,16 @@ namespace APIMayBay.Controllers
                 str1 = driver.PageSource;
             }
 
-            var elements = driver.FindElements(By.XPath("//*[@id=\"0\"]/td[1]/span[1]/strong"));
-            string before = " class=\"flightJson\" value=\"";
+            HtmlDocument doc = new HtmlDocument();
+            doc.LoadHtml(driver.PageSource);
 
-
-            string input = getBetween(str1, before, "}");
-            string json = input.Replace("&quot;", "\"");
-
-
-            int x = 0;
-
+            var node = doc.DocumentNode.SelectNodes("//strong[@class = \"fight-airline\"]");
+            string data = "";
+            foreach (var item in node)
+            {
+                data += item.InnerText;
+            }
+            
 
 
             /*var node = doc.DocumentNode.SelectNodes("//strong[@class = \"fight-airline\"]");
@@ -89,7 +89,7 @@ namespace APIMayBay.Controllers
                 node = doc.DocumentNode.SelectNodes("//strong[@class = \"fight-airline\"]");
             }
             string dulieutext = "";
-            int x = 0;
+            
             if (node == null)
             {
                 dulieutext = "";
@@ -101,8 +101,8 @@ namespace APIMayBay.Controllers
                 dulieutext += data.InnerText;
             }*/
 
-            
 
+            int x = 0;
             ViewBag.Dulieuweb = str1;
 
             /*var driver = new PhantomJSDriver();
