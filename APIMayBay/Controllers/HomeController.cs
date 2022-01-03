@@ -22,17 +22,22 @@ namespace APIMayBay.Controllers
             this.chuyenBayService = chuyenBayService;
         }
 
+
+
         public IActionResult Index()
         {
             var html = new HtmlWeb();
-            var document = html.Load("https://vnexpress.net/gia-vang-trong-nuoc-tang-nguoc-chieu-the-gioi-4411484.html");
-            var node = document.DocumentNode.SelectSingleNode("/html/body/section[4]/div/div[2]/h1");
-            var node2 = document.DocumentNode.SelectSingleNode("/html/body/section[4]/div/div[2]/p");
-            string dulieutext = node.InnerText;
-            string dulieutext2 = node2.InnerText;
+            var document = html.Load("https://ngoahotanglong.vn/game-kinh-di-offline-pc/");
+   
+            var node = document.DocumentNode.SelectNodes("/html/body/div[1]/div[2]/main/div/div/div[1]/div/article");
+            string dulieutext = "";
 
+            foreach (var data in node)
+            {
+                dulieutext += data.InnerText;       
+            }
             ViewBag.Dulieuweb = dulieutext;
-            ViewBag.Dulieuweb2 = dulieutext2;
+         
             
 
             //List<Student> studentList = studentService.GetStudents();
