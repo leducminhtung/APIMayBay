@@ -16,7 +16,19 @@ namespace APIMayBay.Models
         public string MACANGDEN { get; set; }
         public string TENCANGDEN { get; set; }
 
-        public decimal GIA { get; set; }
+        public decimal GIANGUOILON { get; set; }
+        public decimal GIATREEM { get; set; }
+        public decimal GIAEMBE { get; set; }
+
+        public decimal THUEPHISANBAYNGUOILON { get; set; }
+        public decimal THUEPHISANBAYTREEM { get; set; }
+        public decimal THUEPHISANBAYEMBE { get; set; }
+
+        public decimal GIADICHVUNGUOILON { get; set; }
+        public decimal GIADICHVUTREEM { get; set; }
+        public decimal GIADICHVUEMBE { get; set; }
+
+        public decimal TONGTIEN { get; set; }
 
         public DateTime NgayDi { get; set; }
         public DateTime NgayDen { get; set; }

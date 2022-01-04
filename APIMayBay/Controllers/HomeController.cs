@@ -14,6 +14,7 @@ using OpenQA.Selenium.PhantomJS;
 using SeleniumExtras.WaitHelpers;
 using System.Threading;
 using OpenQA.Selenium.Chrome;
+using Lib.Entity;
 
 namespace APIMayBay.Controllers
 {
@@ -55,7 +56,7 @@ namespace APIMayBay.Controllers
             options.AddArgument("--start-maximized");
             options.AddArgument("--disable-notifications");
             options.BinaryLocation = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
-            driver = new ChromeDriver("C:\\Users\\Le Duc Minh Tung\\source\\repos\\WinformGetJsonMaybay\\WinformGetJsonMaybay\\bin\\Debug", options);
+            driver = new ChromeDriver("C:\\Users\\Le Duc Minh Tung\\source\\repos\\APIMayBay\\WinformGetJsonMaybay\\WinformGetJsonMaybay\\bin\\Debug", options);
 
             driver.Navigate().GoToUrl("https://www.etrip4u.com/tim-ve-may-bay/SGN-HAN-20220106-100");
 
@@ -71,56 +72,78 @@ namespace APIMayBay.Controllers
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(driver.PageSource);
 
-            var node = doc.DocumentNode.SelectNodes("//strong[@class = \"fight-airline\"]");
-            string data = "";
-            foreach (var item in node)
+            var dataHang = doc.DocumentNode.SelectNodes("//strong[@class = \"fight-airline\"]");
+            List<string> dsHang = new List<string>();
+            foreach (var item in dataHang)
             {
-                data += item.InnerText;
-            }
-            
-
-
-            /*var node = doc.DocumentNode.SelectNodes("//strong[@class = \"fight-airline\"]");
-            int dem = 0;
-            while (node == null && dem <5)
-            {
-                dem++;
-                Thread.Sleep(5000);
-                node = doc.DocumentNode.SelectNodes("//strong[@class = \"fight-airline\"]");
-            }
-            string dulieutext = "";
-            
-            if (node == null)
-            {
-                dulieutext = "";
-                return View();
+                dsHang.Add(item.InnerText);
             }
 
-            foreach (var data in node)
+            var TENCANGDI = doc.DocumentNode.SelectSingleNode("/html/body/div[1]/section/div/div[2]/div/div[2]/form[1]/div[1]/h2[2]/strong[1]");
+            var TENCANGDEN = doc.DocumentNode.SelectSingleNode("/html/body/div[1]/section/div/div[2]/div/div[2]/form[1]/div[1]/h2[2]/strong[2]");
+
+            var tables = doc.DocumentNode.SelectSingleNode("//table[@id = \"tblDepartureFlight\"]");
+            var body = tables.SelectSingleNode("//tbody");
+            var dataChuyenBay = body.SelectNodes(".//tr");
+            List<ChuyenBayViewModel> dsChuyenBay = new List<ChuyenBayViewModel>();
+            foreach (var datachuyenbay in dataChuyenBay)
             {
-                dulieutext += data.InnerText;
-            }*/
+                ChuyenBayViewModel chuyenbay = new ChuyenBayViewModel();
+                var infoChuyenBay = datachuyenbay.SelectNodes(".//td");
+                foreach (var info in infoChuyenBay)
+                {
+                    string attributeValue = info.GetAttributeValue("class", "");
+                    if (attributeValue.Equals("col-airlines-info"))
+                    {
+                        var dataMB = info.SelectSingleNode("//span[@class = \"flight-type\"]");
+                        var datainfoMB = info.SelectNodes("//span[@class = \"flight-no\"]");
+                        var TENMB = dataMB.SelectSingleNode("//span[3]");
+                        for (int i = 0; i < datainfoMB.Count; i++)
+                        {
+                            if (i == 1) TENMB = datainfoMB[i];
+                        }
+                      
+                        var TenHANG = info.SelectSingleNode("//span[@class = \"name-airlines\"]");
+                        var MaCB = info.SelectSingleNode("//strong[@class = \"FlightNo show-responsive\"]");
+                        /*var MACANGDI = info.SelectSingleNode("//input[@name = \"departureFlights[0].DepartureCity\"]");
+                        var MACANGDEN = info.SelectSingleNode("//input[@name = \"departureFlights[0].ArrivalCity\"]");
+                        var MAMB = info.SelectSingleNode("//input[@name = \"departureFlights[0].AirlineId\"]");
+                        var MAHANG = info.SelectSingleNode("//input[@name = \"departureFlights[0].FlightAirline\"]");
+                        var NGAYGIODI = info.SelectSingleNode("//input[@name = \"departureFlights[0].DepartureDate\"]");
+                        var NGAYGIODEN = info.SelectSingleNode("//input[@name = \"departureFlights[0].ArrivalDate\"]");*/
+                        var PICTURE = info.SelectSingleNode("//img[@class = \"best-logo\"]");
 
 
-            int x = 0;
-            ViewBag.Dulieuweb = str1;
 
-            /*var driver = new PhantomJSDriver();
-            driver.Navigate().GoToUrl("https://www.etrip4u.com/tim-ve-may-bay/SGN-HAN-20220106-100");
-            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
-       .Until(ExpectedConditions.ElementIsVisible(By.ClassName("flightJson")));
-            string data = driver.FindElement(By.ClassName("flightJson")).Text;*/
 
-            //List<Student> studentList = studentService.GetStudents();
-            /* Student st = new Student();
-             st.Id = Guid.NewGuid();
-             st.Name = "Sinh Viên 1";
-             st.Code = "1118";
-             st.Phone = "123456789";
-             st.Picture = "/images/nq3.jpg";
-             studentService.InsertStudent(st);
-            */
-            return View();
+                        chuyenbay.TENHANG = TenHANG.InnerText;
+                        chuyenbay.MaCB = MaCB.InnerText;
+                        chuyenbay.TENCANGDI = TENCANGDI.InnerText;
+                        chuyenbay.TENCANGDEN = TENCANGDEN.InnerText;
+                        chuyenbay.TenMB = TENMB.InnerText;
+                        /*chuyenbay.MACANGDI = MACANGDI.InnerText;
+                        chuyenbay.MACANGDEN = MACANGDEN.InnerText;
+                        chuyenbay.NgayDen = DateTime.Parse(NGAYGIODEN.InnerText);
+                        chuyenbay.NgayDi = DateTime.Parse(NGAYGIODI.InnerText);*/
+                    }
+                    if (attributeValue.Equals("time departure"))
+                    {
+
+                    }
+
+                }
+
+                
+            }
+
+
+
+
+
+            ViewBag.Dulieuweb = dsChuyenBay;
+
+
+            return View(dsChuyenBay);
         }
 
         public IActionResult Privacy()

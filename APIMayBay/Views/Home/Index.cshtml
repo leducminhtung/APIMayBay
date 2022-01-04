@@ -1,10 +1,153 @@
-﻿@{
+﻿@model IEnumerable<Lib.Entity.ChuyenBayViewModel>
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <p>@Html.Raw(@ViewBag.Dulieuweb)</p>
 
 </div>
+
+<table class="table">
+    <tr>
+        <th>
+            MACB
+        </th>
+        <th>
+            PICTURE
+        </th>
+        <th>
+            TENHANG
+        </th>
+        <th>
+            TENMAYBAY
+        </th>
+        <th>
+            MACANGDI
+        </th>
+        <th>
+            TENCANGDI
+        </th>
+        <th>
+            MACANGDEN
+        </th>
+        <th>
+            TENCANGDEN
+        </th>
+        <th>
+            NgayDi
+        </th>
+        <th>
+            NgayDen
+        </th>
+        <th>
+            ThoiGianBay
+        </th>
+
+        <th>
+            GIAVENGUOILON
+        </th>
+        <th>
+            GIAVETREEM
+        </th>
+        <th>
+            GIAVEEMBE
+        </th>
+        <th>
+            THUEPHISANBAYNGUOILON
+        </th>
+        <th>
+            THUEPHISANBAYTREEM
+        </th>
+        <th>
+            THUEPHISANBAYEMBE
+        </th>
+        <th>
+            GIADICHVUNGUOILON
+        </th>
+        <th>
+            GIADICHVUTREEM
+        </th>
+        <th>
+            GIADICHVUEMBE
+        </th>
+        <th>
+            TONGTIEN
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td id="MaChuyenBay">
+                @Html.DisplayFor(modelItem => item.MaCB)
+            </td>
+            <td id="MaCangDi">
+                @Html.DisplayFor(modelItem => item.PICTURE)
+            </td>
+            <td id="TenCangDi">
+                @Html.DisplayFor(modelItem => item.TENHANG)
+            </td>
+            <td id="MaCangDen">
+                @Html.DisplayFor(modelItem => item.TenMB)
+            </td>
+            <td id="TenCangDen">
+                @Html.DisplayFor(modelItem => item.MACANGDI)
+            </td>
+            <td id="GiaVeHT">
+                @Html.DisplayFor(modelItem => item.TENCANGDI)
+            </td>
+            <td id="GiaVeTG">
+                @Html.DisplayFor(modelItem => item.MACANGDEN)
+            </td>
+            <td id="MaMayBay">
+                @Html.DisplayFor(modelItem => item.TENCANGDEN)
+            </td>
+            <td id="TenMayBay">
+                @Html.DisplayFor(modelItem => item.NgayDi)
+            </td>
+            <td id="NgayGioBay">
+                @Html.DisplayFor(modelItem => item.NgayDen)
+            </td>
+            <td id="ThoiGianBay">
+                @Html.DisplayFor(modelItem => item.ThoiGianBay)
+            </td>
+            <td id="ThoiGianBay">
+                @Html.DisplayFor(modelItem => item.GIANGUOILON)
+            </td>
+            <td id="ThoiGianBay">
+                @Html.DisplayFor(modelItem => item.GIATREEM)
+            </td>
+            <td id="ThoiGianBay">
+                @Html.DisplayFor(modelItem => item.GIAEMBE)
+            </td>
+            <td id="ThoiGianBay">
+                @Html.DisplayFor(modelItem => item.THUEPHISANBAYNGUOILON)
+            </td>
+            <td id="ThoiGianBay">
+                @Html.DisplayFor(modelItem => item.THUEPHISANBAYTREEM)
+            </td>
+            <td id="ThoiGianBay">
+                @Html.DisplayFor(modelItem => item.THUEPHISANBAYEMBE)
+            </td>
+            <td id="ThoiGianBay">
+                @Html.DisplayFor(modelItem => item.GIADICHVUNGUOILON)
+            </td>
+            <td id="ThoiGianBay">
+                @Html.DisplayFor(modelItem => item.GIADICHVUTREEM)
+            </td>
+            <td id="ThoiGianBay">
+                @Html.DisplayFor(modelItem => item.GIADICHVUEMBE)
+            </td>
+            <td id="ThoiGianBay">
+                @Html.DisplayFor(modelItem => item.TONGTIEN)
+            </td>
+
+
+        </tr>
+    }
+
+</table>
