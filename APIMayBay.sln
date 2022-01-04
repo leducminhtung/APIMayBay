@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIMayBay", "APIMayBay\APIM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lib", "Lib\Lib.csproj", "{A1549DA9-3791-4A93-96B1-07B3A17AE845}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinformGetJsonMaybay", "..\WinformGetJsonMaybay\WinformGetJsonMaybay\WinformGetJsonMaybay.csproj", "{0002FFF7-407A-46F1-A303-39AAF0C559A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinformGetJsonMaybay", "WinformGetJsonMaybay\WinformGetJsonMaybay\WinformGetJsonMaybay.csproj", "{0002FFF7-407A-46F1-A303-39AAF0C559A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
