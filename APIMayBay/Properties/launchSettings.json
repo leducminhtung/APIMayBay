@@ -5,6 +5,9 @@
     "iisExpress": {
       "applicationUrl": "http://localhost:7824",
       "sslPort": 44310
+    },
+    "iis": {
+      "applicationUrl": "http://127.0.0.1:8085"
     }
   },
   "profiles": {
@@ -15,14 +18,22 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "APIMayBay": {
-      "commandName": "Project",
+    "Local IIS": {
+      "commandName": "IIS",
       "launchBrowser": true,
+      "launchUrl": "http://127.0.0.1:8085",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": "true",
-      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+      }
+    },
+      "APIMayBay": {
+        "commandName": "Project",
+        "launchBrowser": true,
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        },
+        "dotnetRunMessages": "true",
+        "applicationUrl": "https://localhost:5001;http://localhost:5000"
+      }
     }
   }
-}

@@ -10,6 +10,8 @@ namespace Lib
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<ChuyenBayViewModel> ChuyenBay { get; set; }
+        public DbSet<CangBayViewModel> CangBay { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
         {
 

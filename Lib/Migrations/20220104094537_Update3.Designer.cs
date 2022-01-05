@@ -4,38 +4,22 @@ using Lib;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Lib.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220104094537_Update3")]
+    partial class Update3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Lib.Entity.CangBayViewModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("MaCB")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TenMB")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CangBay");
-                });
 
             modelBuilder.Entity("Lib.Entity.ChuyenBayViewModel", b =>
                 {
@@ -61,12 +45,6 @@ namespace Lib.Migrations
                     b.Property<decimal>("GIATREEM")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("GioDen")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("GioDi")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("MACANGDEN")
                         .HasColumnType("nvarchar(max)");
 
@@ -76,16 +54,10 @@ namespace Lib.Migrations
                     b.Property<string>("MaCB")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NgayDen")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NgayDi")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("NgayGioDen")
+                    b.Property<DateTime>("NgayDen")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("NgayGioDi")
+                    b.Property<DateTime>("NgayDi")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PICTURE")

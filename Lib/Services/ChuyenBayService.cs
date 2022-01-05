@@ -1,6 +1,7 @@
 ﻿using Lib.Entity;
 using Lib.Repositories;
 using Lib.Repositories.Lib.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,10 +24,38 @@ namespace Lib.Services
         public List<ChuyenBayViewModel> GetChuyenBays() {
             return chuyenBayRepository.GetChuyenBays();
         }
-        public void InsertStudent(ChuyenBayViewModel student)
+        public void InsertChuyenBay(ChuyenBayViewModel chuyenbay)
         {
-            dbContext.Add(student);
-            Save();
+            List<ChuyenBayViewModel> dsCB = GetChuyenBays();
+            int dem = 0;
+            foreach(var item in dsCB)
+            {
+                if (item.MaCB.Equals(chuyenbay.MaCB))
+                {
+                    dem++;
+                    chuyenbay.MaCB = item.MaCB;
+                    chuyenbay.Id = item.Id;
+                    var existingEntity3 = dbContext.ChuyenBay.Find(item.Id);
+
+                    dbContext.Entry(existingEntity3).CurrentValues.SetValues(chuyenbay);
+                    Save();
+                    break;
+                }
+            }
+
+            if (dem > 0) 
+            {
+                
+                
+                Save();
+
+            } 
+            else
+            {
+                dbContext.Add(chuyenbay); Save();
+            }
+            
+            
         }
         
     }

@@ -35,8 +35,17 @@ namespace Lib.Entity
 
         public decimal TONGTIEN { get; set; }
 
-        public DateTime NgayDi { get; set; }
-        public DateTime NgayDen { get; set; }
+        public int SoLuongNguoiLon { get; set; }
+        public int SoLuongTreEm { get; set; }
+        public int SoLuongEmBe { get; set; }
+
+        public string NgayDi { get; set; }
+        public string NgayDen { get; set; }
+        public string GioDi { get; set; }
+        public string GioDen { get; set; }
+
+        public DateTime NgayGioDi { get; set; }
+        public DateTime NgayGioDen { get; set; }
 
         public int ThoiGianBay { get; set; }
 
@@ -51,6 +60,10 @@ namespace Lib.Entity
             TENHANG = "";
             MACANGDEN = "";
             TENCANGDEN = "";
+            NgayDi = "";
+            NgayDen = "";
+            GioDi = "";
+            GioDen = "";
             GIANGUOILON = 0;
             GIATREEM = 0;
             GIAEMBE = 0;
@@ -61,11 +74,14 @@ namespace Lib.Entity
             GIADICHVUTREEM = 0;
             GIADICHVUEMBE = 0;
             TONGTIEN = 0;
-            NgayDi = DateTime.Now;
-            NgayDen = DateTime.Now;
+            NgayGioDi = DateTime.Now;
+            NgayGioDen = DateTime.Now;
             ThoiGianBay = 0;
+            SoLuongNguoiLon = 0;
+            SoLuongTreEm = 0;
+            SoLuongEmBe = 0;
         }
-        public ChuyenBayViewModel(Guid id, string maCB, string tenMB, string mACANGDI, string tENCANGDI, string pICTURE, string tENHANG, string mACANGDEN, string tENCANGDEN, decimal gIANGUOILON, decimal gIATREEM, decimal gIAEMBE, decimal tHUEPHISANBAYNGUOILON, decimal tHUEPHISANBAYTREEM, decimal tHUEPHISANBAYEMBE, decimal gIADICHVUNGUOILON, decimal gIADICHVUTREEM, decimal gIADICHVUEMBE, decimal tONGTIEN, DateTime ngayDi, DateTime ngayDen, int thoiGianBay)
+        public ChuyenBayViewModel(Guid id, string maCB, string tenMB, string mACANGDI, string tENCANGDI, string pICTURE, string tENHANG, string mACANGDEN, string tENCANGDEN, decimal gIANGUOILON, decimal gIATREEM, decimal gIAEMBE, decimal tHUEPHISANBAYNGUOILON, decimal tHUEPHISANBAYTREEM, decimal tHUEPHISANBAYEMBE, decimal gIADICHVUNGUOILON, decimal gIADICHVUTREEM, decimal gIADICHVUEMBE, decimal tONGTIEN, DateTime ngayGioDi, DateTime ngayGioDen, int thoiGianBay, int soLuongNguoiLon,int soLuongTreEm,int soLuongEmBe,string ngayDi,string ngayDen, string gioDi,string gioDen)
         {
             Id = id;
             MaCB = maCB;
@@ -88,7 +104,14 @@ namespace Lib.Entity
             TONGTIEN = tONGTIEN;
             NgayDi = ngayDi;
             NgayDen = ngayDen;
+            GioDi = gioDi;
+            GioDen = gioDen;
+            NgayGioDi = ngayGioDi;
+            NgayGioDen = ngayGioDen;
             ThoiGianBay = thoiGianBay;
+            SoLuongNguoiLon = soLuongNguoiLon;
+            SoLuongTreEm = soLuongTreEm;
+            SoLuongEmBe = soLuongEmBe;
         }
     }
 }

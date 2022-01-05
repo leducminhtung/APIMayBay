@@ -1,5 +1,7 @@
 
+using APIMayBay.ScheduleTask;
 using Lib;
+using Lib.Repositories;
 using Lib.Repositories.Lib.Repositories;
 using Lib.Security;
 using Lib.Services;
@@ -35,8 +37,13 @@ namespace APIMayBay
             services.AddTransient<IChuyenBayRepository, ChuyenBayRepository>();
             services.AddTransient<ChuyenBayService>();
 
+            services.AddTransient<ICangBayRepository, CangBayRepository>();
+            services.AddTransient<CangBayService>();
 
             services.AddSingleton<ApplicationDbContext>();
+            services.AddSingleton<IHostedService,SampleTask1>();
+            
+
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

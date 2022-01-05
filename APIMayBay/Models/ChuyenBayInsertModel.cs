@@ -34,5 +34,9 @@ namespace APIMayBay.Models
         public DateTime NgayDen { get; set; }
 
         public int ThoiGianBay { get; set; }
+
+        public int SoLuongNguoiLon { get; set; }
+        public int SoLuongTreEm { get; set; }
+        public int SoLuongEmBe { get; set; }
     }
 }

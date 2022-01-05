@@ -1,65 +1,54 @@
-﻿using APIMayBay.Models;
+﻿using APIMayBay.BackgroundService;
+using System;
+using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using APIMayBay.Models;
 using HtmlAgilityPack;
 using Lib.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
+
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+
+
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium.PhantomJS;
-using SeleniumExtras.WaitHelpers;
+
 using System.Threading;
 using OpenQA.Selenium.Chrome;
 using Lib.Entity;
-using APIMayBay.ScheduleTask;
+using Lib;
+using Lib.Repositories.Lib.Repositories;
+using APIMayBay.Controllers;
 
-namespace APIMayBay.Controllers
+namespace APIMayBay.ScheduleTask
 {
-    public class HomeController : Controller
+    public class SampleTask1 : ScheduledProcessor
     {
-        private readonly ILogger<HomeController> _logger;
+
+        
         private ChuyenBayService chuyenBayService;
+        private CangBayService cangBayService;
 
-        public HomeController(ILogger<HomeController> logger, ChuyenBayService chuyenBayService)
+
+        public SampleTask1(IServiceScopeFactory serviceScopeFactory, ChuyenBayService chuyenBayService,CangBayService cangBayService) : base(serviceScopeFactory)
         {
-            _logger = logger;
+          
             this.chuyenBayService = chuyenBayService;
+            this.cangBayService = cangBayService;
         }
 
-        public static string getBetween(string strSource, string strStart, string strEnd)
+        protected override string Schedule => "*/1 * * * *"; // every 1 min 
+
+        public void LayDuLieuTuWeb(string url)
         {
-            if (strSource.Contains(strStart) && strSource.Contains(strEnd))
-            {
-                int Start, End;
-                Start = strSource.IndexOf(strStart, 0) + strStart.Length;
-                End = strSource.IndexOf(strEnd, Start);
-                return strSource.Substring(Start, End - Start);
-            }
-
-            return "";
-        }
-
-        public IActionResult Index()
-        {
-            
-            /*IWebDriver driver = new OpenQA.Selenium.PhantomJS.PhantomJSDriver();
-            driver.Navigate().GoToUrl("https://www.etrip4u.com/tim-ve-may-bay/SGN-HAN-20220106-100");
-            HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(driver.PageSource);*/
-
-
-            /*IWebDriver driver;
+            IWebDriver driver;
             var options = new ChromeOptions();
             options.AddArgument("--start-maximized");
             options.AddArgument("--disable-notifications");
             options.BinaryLocation = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
             driver = new ChromeDriver("C:\\Users\\Le Duc Minh Tung\\source\\repos\\APIMayBay\\WinformGetJsonMaybay\\WinformGetJsonMaybay\\bin\\Debug", options);
 
-            driver.Navigate().GoToUrl("https://www.etrip4u.com/tim-ve-may-bay/SGN-HAN-20220105-20220113-111");
+            driver.Navigate().GoToUrl(url);
 
             string str1 = driver.PageSource;
             int dem = 0;
@@ -73,18 +62,23 @@ namespace APIMayBay.Controllers
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(driver.PageSource);
 
-            
 
-            
+
+
 
 
             var TENCANGDI = doc.DocumentNode.SelectSingleNode("/html/body/div[1]/section/div/div[2]/div/div[2]/form[1]/div[1]/h2[2]/strong[1]");
             var TENCANGDEN = doc.DocumentNode.SelectSingleNode("/html/body/div[1]/section/div/div[2]/div/div[2]/form[1]/div[1]/h2[2]/strong[2]");
             var dataNgayDi = doc.DocumentNode.SelectSingleNode("/html/body/div[1]/section/div/div[2]/div/div[1]/div/div[2]/span[1]/strong");
-            string NgayDi = dataNgayDi.InnerText;
+
+            string NgayDi = "";
+            if (dataNgayDi != null)
+            NgayDi = dataNgayDi.InnerText;
 
             var dataNgayDen = doc.DocumentNode.SelectSingleNode("/html/body/div[1]/section/div/div[2]/div/div[1]/div/div[2]/span[2]/strong");
-            string NgayDen = dataNgayDen.InnerText;
+            string NgayDen = "";
+            if (dataNgayDen != null)
+            NgayDen = dataNgayDen.InnerText;
 
 
             //Bay di
@@ -147,22 +141,23 @@ namespace APIMayBay.Controllers
             var SLTreEm = doc.DocumentNode.SelectSingleNode("//strong[@id = \"childLabel\"]");
             var SLEmBe = doc.DocumentNode.SelectSingleNode("//strong[@id = \"infantLabel\"]");
 
-            
-            
+
+
             List<ChuyenBayViewModel> dsCB = new List<ChuyenBayViewModel>();
+            if (dataTenHang != null)
             for (int i = 0; i < dataTenHang.Count; i++)
             {
                 ChuyenBayViewModel chuyenBay = new ChuyenBayViewModel();
                 chuyenBay.TENHANG = dataTenHang[i].InnerText;
                 chuyenBay.MACANGDI = CangDi[i].InnerText;
-                
+             
                 chuyenBay.TenMB = dataMaCB_TenMB[i].InnerText + " | " + dataMaCB_TenMB[i*2].InnerText;
                 chuyenBay.TENCANGDI = TENCANGDI.InnerText;
                 chuyenBay.TENCANGDEN = TENCANGDEN.InnerText;
                 chuyenBay.MACANGDEN = CangDen[i].InnerText;
                 string LoGoUrl = Logo[i].GetAttributeValue("src", "");
                 chuyenBay.PICTURE = "https://www.etrip4u.com/" + LoGoUrl;
-                chuyenBay.GIANGUOILON = Decimal.Parse(GiaNguoiLon[i*2].InnerText.Replace(",", ""));
+                chuyenBay.GIANGUOILON = Decimal.Parse(GiaNguoiLon[i * 2].InnerText.Replace(",", ""));
 
                 string GiaVeTreEm = dataGiaTreEm[i].GetAttributeValue("value", "");
                 string GiaVeEmBe = dataGiaEmBe[i].GetAttributeValue("value", "");
@@ -186,7 +181,7 @@ namespace APIMayBay.Controllers
                 chuyenBay.SoLuongNguoiLon = Int32.Parse(SLNguoiLon.InnerText);
                 chuyenBay.SoLuongTreEm = Int32.Parse(SLTreEm.InnerText);
                 chuyenBay.SoLuongEmBe = Int32.Parse(SLEmBe.InnerText);
-                chuyenBay.NgayDen = NgayDi.Substring(NgayDi.Length-11);
+                chuyenBay.NgayDen = NgayDi.Substring(NgayDi.Length - 11);
 
                 chuyenBay.NgayDi = NgayDi.Substring(NgayDi.Length - 11);
 
@@ -203,20 +198,21 @@ namespace APIMayBay.Controllers
                 int raw_TGBAY = Int32.Parse(TGDi[i].InnerText.Replace(":", ""));
                 int gio = raw_TGBAY / 100;
                 int phut = raw_TGBAY % 100;
-                chuyenBay.ThoiGianBay = gio*60 + phut ;
-                
-                chuyenBay.TONGTIEN = chuyenBay.SoLuongNguoiLon * (chuyenBay.GIANGUOILON + chuyenBay.THUEPHISANBAYNGUOILON + chuyenBay.GIADICHVUNGUOILON) + chuyenBay.SoLuongTreEm * (chuyenBay.GIATREEM + chuyenBay.THUEPHISANBAYTREEM + chuyenBay.GIADICHVUTREEM) 
+                chuyenBay.ThoiGianBay = gio * 60 + phut;
+
+                chuyenBay.TONGTIEN = chuyenBay.SoLuongNguoiLon * (chuyenBay.GIANGUOILON + chuyenBay.THUEPHISANBAYNGUOILON + chuyenBay.GIADICHVUNGUOILON) + chuyenBay.SoLuongTreEm * (chuyenBay.GIATREEM + chuyenBay.THUEPHISANBAYTREEM + chuyenBay.GIADICHVUTREEM)
                     + chuyenBay.SoLuongEmBe * (chuyenBay.GIAEMBE + chuyenBay.THUEPHISANBAYEMBE + chuyenBay.GIADICHVUEMBE);
-                chuyenBay.MaCB = chuyenBay.MACANGDEN + chuyenBay.MACANGDI + chuyenBay.NgayDi + chuyenBay.NgayDen + chuyenBay.TENHANG + chuyenBay.GIANGUOILON + chuyenBay.GIATREEM + chuyenBay.GIAEMBE + chuyenBay.NgayGioDen.ToString() + chuyenBay.NgayGioDi.ToString();
-                dsCB.Add(chuyenBay);
+                    chuyenBay.MaCB = chuyenBay.MACANGDEN + chuyenBay.MACANGDI + chuyenBay.NgayDi + chuyenBay.NgayDen + chuyenBay.TENHANG + chuyenBay.GIANGUOILON + chuyenBay.GIATREEM + chuyenBay.GIAEMBE + chuyenBay.NgayGioDen.ToString() + chuyenBay.NgayGioDi.ToString();
+                    dsCB.Add(chuyenBay);
             }
 
-            for (int i = 0; i < dataTenHang_Ve.Count; i++)
+            if (dataTenHang_Ve != null)
+                for (int i = 0; i < dataTenHang_Ve.Count; i++)
             {
                 ChuyenBayViewModel chuyenBay = new ChuyenBayViewModel();
                 chuyenBay.TENHANG = dataTenHang_Ve[i].InnerText;
                 chuyenBay.MACANGDI = CangDi_Ve[i].InnerText;
-
+                
                 chuyenBay.TenMB = dataMaCB_TenMB_Ve[i].InnerText + " | " + dataMaCB_TenMB_Ve[i * 2].InnerText;
                 chuyenBay.TENCANGDI = TENCANGDI.InnerText;
                 chuyenBay.TENCANGDEN = TENCANGDEN.InnerText;
@@ -272,30 +268,126 @@ namespace APIMayBay.Controllers
             }
 
 
-            
-            
+
+            if (dsCB != null)
             foreach (var chuyenbay in dsCB)
             {
                 chuyenBayService.InsertChuyenBay(chuyenbay);
             }
 
+            //return Task.CompletedTask;
+            
+            driver.Close();
 
-
-            ViewBag.Dulieuweb = str1;
-
-            driver.Close();*/
-            return View();
         }
 
-        public IActionResult Privacy()
+        public override async Task ProcessInScope(IServiceProvider scopeServiceProvider) 
         {
-            return View();
-        }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            string urlbase = "https://www.etrip4u.com/tim-ve-may-bay/";
+            var dsCangBay = cangBayService.GetCangBays();
+            var dsCangBay2 = cangBayService.GetCangBays();
+            DateTime homnay = DateTime.Now;
+            
+            int ngaycuoithang = DateTime.DaysInMonth(homnay.Year, homnay.Month);
+           
+            // Mot chieu
+            foreach (var cangdi in dsCangBay)
+            {
+                foreach (var cangden in dsCangBay2)
+                {
+                    if (cangden == cangdi) continue;
+                    else
+                    {
+                        for (int i = homnay.Day; i <= ngaycuoithang; i++)
+                        {
+                            string day = "";
+                            if (i < 10) day = "0" + i.ToString();
+                            else day = i.ToString();
+
+                            string month = "";
+                            if (homnay.Month < 10) month = "0" + homnay.Month.ToString();
+                            else month = homnay.Month.ToString();
+
+                            string ngaydi = homnay.Year.ToString() + month.ToString() + day.ToString();
+                            string urlLayData = urlbase + cangdi.MaCB + "-" + cangden.MaCB + "-" + ngaydi + "-" + "111";
+                            /*LayDuLieuTuWeb(urlLayData);*/
+
+                        }
+
+                        
+
+                    }    
+                    
+                }
+                
+                
+
+            }
+
+            //Khu hoi
+            foreach (var cangdi in dsCangBay)
+            {
+                foreach (var cangden in dsCangBay2)
+                {
+                    if (cangden == cangdi) continue;
+                    else
+                    {
+                        for (int i = homnay.Day; i < ngaycuoithang; i++)
+                        {
+
+                            for (int v = i + 1; v < ngaycuoithang; v++)
+                            {
+
+                                string day = "";
+                                if (i < 10) day = "0" + i.ToString();
+                                else day = i.ToString();
+
+                                string month = "";
+                                if (homnay.Month < 10) month = "0" + homnay.Month.ToString();
+                                else month = homnay.Month.ToString();
+
+                                string ngaydi = homnay.Year.ToString() + month.ToString() + day;
+
+
+
+                                string day2 = "";
+                                if (v < 10) day2 = "0" + v.ToString();
+                                else day2 = v.ToString();
+
+                                string month2 = "";
+                                if (homnay.Month < 10) month2 = "0" + homnay.Month.ToString();
+                                else month2 = homnay.Month.ToString();
+
+                                string ngayve = homnay.Year.ToString() + month2.ToString() + day2.ToString();
+
+
+
+                                string urlLayData = urlbase + cangdi.MaCB + "-" + cangden.MaCB + "-" + ngaydi + "-" + ngayve + "-" + "111";
+                                /*LayDuLieuTuWeb(urlLayData);*/
+                            }
+
+
+
+                        }
+
+
+
+                    }
+
+                }
+
+
+
+            }
+
+            
+
+
+            await Task.Run(() => {
+                return Task.CompletedTask;
+            });
         }
     }
+
 }
