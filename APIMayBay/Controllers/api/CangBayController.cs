@@ -24,13 +24,13 @@ namespace APIMayBay.Controllers.api
 
         [HttpGet("get-cangbay")]
         //[Authorize(Roles = "Admin,Guest")]
-        public async Task<ActionResult> GetCangBayList()
+        public ActionResult GetCangBayList()
         {
             List<CangBayViewModel> cangBayList = cangBayService.GetCangBays();
             return Ok(new { status = true, data = cangBayList });
         }
 
-        
+
     }
 
 }

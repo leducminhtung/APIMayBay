@@ -16,6 +16,7 @@ using System.Threading;
 using OpenQA.Selenium.Chrome;
 using Lib.Entity;
 using APIMayBay.ScheduleTask;
+using System.Net.Http;
 
 namespace APIMayBay.Controllers
 {
@@ -43,9 +44,16 @@ namespace APIMayBay.Controllers
             return "";
         }
 
+        protected async void OnAppearing()
+        {
+            var httpService = new HttpService();
+            await httpService.SendAsync("http://10.0.2.2:44310",HttpMethod.Get);
+
+        }
+
         public IActionResult Index()
         {
-            
+           
             /*IWebDriver driver = new OpenQA.Selenium.PhantomJS.PhantomJSDriver();
             driver.Navigate().GoToUrl("https://www.etrip4u.com/tim-ve-may-bay/SGN-HAN-20220106-100");
             HtmlDocument doc = new HtmlDocument();
