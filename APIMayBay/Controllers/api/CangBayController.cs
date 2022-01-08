@@ -24,7 +24,7 @@ namespace APIMayBay.Controllers.api
 
         [HttpGet("get-cangbay")]
         //[Authorize(Roles = "Admin,Guest")]
-        public ActionResult GetCangBayList()
+        public async Task<ActionResult> GetCangBayList()
         {
             List<CangBayViewModel> cangBayList = cangBayService.GetCangBays();
             return Ok(new { status = true, data = cangBayList });

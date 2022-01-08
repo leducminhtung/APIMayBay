@@ -28,13 +28,14 @@ namespace APIMayBay.ScheduleTask
         
         private ChuyenBayService chuyenBayService;
         private CangBayService cangBayService;
+        private LoTuyenService loTuyenService;
 
-
-        public SampleTask1(IServiceScopeFactory serviceScopeFactory, ChuyenBayService chuyenBayService,CangBayService cangBayService) : base(serviceScopeFactory)
+        public SampleTask1(IServiceScopeFactory serviceScopeFactory, ChuyenBayService chuyenBayService,CangBayService cangBayService,LoTuyenService loTuyenService) : base(serviceScopeFactory)
         {
           
             this.chuyenBayService = chuyenBayService;
             this.cangBayService = cangBayService;
+            this.loTuyenService = loTuyenService;
         }
 
         protected override string Schedule => "*/1 * * * *"; // every 1 min 

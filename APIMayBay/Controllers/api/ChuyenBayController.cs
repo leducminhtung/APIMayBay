@@ -24,14 +24,14 @@ namespace APIMayBay.Controllers.api
 
         [HttpGet("get-chuyenbay")]
         //[Authorize(Roles = "Admin,Guest")]
-        public ActionResult GetChuyenBayList()
+        public async Task<ActionResult> GetChuyenBayList()
         {
             List<ChuyenBayViewModel> chuyenBayList = chuyenBayService.GetChuyenBays();
             return Ok(new { status = true, data = chuyenBayList });
         }
 
         [HttpPost("insert-chuyenbay")]
-        public ActionResult InsertChuyenBay(ChuyenBayInsertModel chuyenbay)
+        public async Task<ActionResult> InsertChuyenBay(ChuyenBayInsertModel chuyenbay)
         {
             /*ChuyenBayViewModel st = new ChuyenBayViewModel();
             st.Id = Guid.NewGuid();

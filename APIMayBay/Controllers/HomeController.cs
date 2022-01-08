@@ -24,11 +24,16 @@ namespace APIMayBay.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private ChuyenBayService chuyenBayService;
+        private LoTuyenService loTuyenService;
+        private CangBayService cangBayService;
 
-        public HomeController(ILogger<HomeController> logger, ChuyenBayService chuyenBayService)
+        public HomeController(ILogger<HomeController> logger, ChuyenBayService chuyenBayService,LoTuyenService loTuyenService, CangBayService cangBayService)
         {
             _logger = logger;
             this.chuyenBayService = chuyenBayService;
+            this.loTuyenService = loTuyenService;
+            this.cangBayService = cangBayService;
+
         }
 
         public static string getBetween(string strSource, string strStart, string strEnd)
@@ -53,7 +58,7 @@ namespace APIMayBay.Controllers
 
         public IActionResult Index()
         {
-           
+
             /*IWebDriver driver = new OpenQA.Selenium.PhantomJS.PhantomJSDriver();
             driver.Navigate().GoToUrl("https://www.etrip4u.com/tim-ve-may-bay/SGN-HAN-20220106-100");
             HtmlDocument doc = new HtmlDocument();
@@ -282,16 +287,14 @@ namespace APIMayBay.Controllers
 
             
             
-            foreach (var chuyenbay in dsCB)
-            {
-                chuyenBayService.InsertChuyenBay(chuyenbay);
-            }
+           
 
 
 
             ViewBag.Dulieuweb = str1;
 
             driver.Close();*/
+            
             return View();
         }
 

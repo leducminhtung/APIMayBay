@@ -43,6 +43,21 @@ namespace APIMayBay
             services.AddTransient<ICangBayRepository, CangBayRepository>();
             services.AddTransient<CangBayService>();
 
+            services.AddTransient<IHoaDonRepository, HoaDonRepository>();
+            services.AddTransient<HoaDonService>();
+
+            services.AddTransient<IKhachRepository, KhachRepository>();
+            services.AddTransient<KhachService>();
+
+            services.AddTransient<ILoTuyenRepository, LoTuyenRepository>();
+            services.AddTransient<LoTuyenService>();
+
+            services.AddTransient<ITaiKhoanRepository, TaiKhoanRepository>();
+            services.AddTransient<TaiKhoanService>();
+
+            services.AddTransient<IVeMayBayRepository, VeMayBayRepository>();
+            services.AddTransient<VeMayBayService>();
+
             services.AddSingleton<ApplicationDbContext>();
             services.AddSingleton<IHostedService,SampleTask1>();
 

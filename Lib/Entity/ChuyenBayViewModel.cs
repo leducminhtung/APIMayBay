@@ -49,6 +49,9 @@ namespace Lib.Entity
 
         public int ThoiGianBay { get; set; }
 
+        private ICollection<VeMayBayViewModel> Ve { get; set; }
+        private ICollection<LoTuyenViewModel> LoTuyen { get; set; }
+
         public ChuyenBayViewModel()
         {
             Id = new Guid();

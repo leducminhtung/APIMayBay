@@ -10,23 +10,22 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lib.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220104180410_Update6")]
-    partial class Update6
+    [Migration("20220107065059_Update7")]
+    partial class Update7
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.7")
+                .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Lib.Entity.CangBayViewModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("MaCB")
                         .HasColumnType("nvarchar(max)");
@@ -132,6 +131,163 @@ namespace Lib.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ChuyenBay");
+                });
+
+            modelBuilder.Entity("Lib.Entity.HoaDonViewModel", b =>
+                {
+                    b.Property<Guid>("MaHD")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("KhachMaKhach")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MaKhach")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("NgayLap")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SL_EmBe")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SL_NguoiLon")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SL_TreEm")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TongTien")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("MaHD");
+
+                    b.HasIndex("KhachMaKhach");
+
+                    b.ToTable("HoaDon");
+                });
+
+            modelBuilder.Entity("Lib.Entity.KhachViewModel", b =>
+                {
+                    b.Property<Guid>("MaKhach")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CCCD")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GioiTinh")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HoTen")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("NgaySinh")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SDT")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Ten")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MaKhach");
+
+                    b.ToTable("Khach");
+                });
+
+            modelBuilder.Entity("Lib.Entity.LoTuyenViewModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid?>("CangDenId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CangDiId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id2")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("MaCangDen")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MaCangDi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CangDenId");
+
+                    b.HasIndex("CangDiId");
+
+                    b.ToTable("LoTuyen");
+                });
+
+            modelBuilder.Entity("Lib.Entity.TaiKhoanViewModel", b =>
+                {
+                    b.Property<Guid>("MaTK")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MaTK");
+
+                    b.ToTable("TaiKhoan");
+                });
+
+            modelBuilder.Entity("Lib.Entity.VeMayBayViewModel", b =>
+                {
+                    b.Property<int>("STT")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid?>("ChuyenBayId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("HoaDonMaHD")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("LoaiVe")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("MaHD")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("NgayLap")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("TongTien")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("STT");
+
+                    b.HasIndex("ChuyenBayId");
+
+                    b.HasIndex("HoaDonMaHD");
+
+                    b.ToTable("VeMayBay");
                 });
 
             modelBuilder.Entity("Lib.Security.ApplicationUser", b =>
@@ -335,6 +491,45 @@ namespace Lib.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Lib.Entity.HoaDonViewModel", b =>
+                {
+                    b.HasOne("Lib.Entity.KhachViewModel", "Khach")
+                        .WithMany()
+                        .HasForeignKey("KhachMaKhach");
+
+                    b.Navigation("Khach");
+                });
+
+            modelBuilder.Entity("Lib.Entity.LoTuyenViewModel", b =>
+                {
+                    b.HasOne("Lib.Entity.CangBayViewModel", "CangDen")
+                        .WithMany()
+                        .HasForeignKey("CangDenId");
+
+                    b.HasOne("Lib.Entity.CangBayViewModel", "CangDi")
+                        .WithMany()
+                        .HasForeignKey("CangDiId");
+
+                    b.Navigation("CangDen");
+
+                    b.Navigation("CangDi");
+                });
+
+            modelBuilder.Entity("Lib.Entity.VeMayBayViewModel", b =>
+                {
+                    b.HasOne("Lib.Entity.ChuyenBayViewModel", "ChuyenBay")
+                        .WithMany()
+                        .HasForeignKey("ChuyenBayId");
+
+                    b.HasOne("Lib.Entity.HoaDonViewModel", "HoaDon")
+                        .WithMany()
+                        .HasForeignKey("HoaDonMaHD");
+
+                    b.Navigation("ChuyenBay");
+
+                    b.Navigation("HoaDon");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

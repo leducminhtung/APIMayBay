@@ -45,10 +45,7 @@ namespace Lib.Services
 
             if (dem > 0) 
             {
-                
-                
                 Save();
-
             } 
             else
             {
